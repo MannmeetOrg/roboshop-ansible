@@ -1,0 +1,30 @@
+source common.sh
+sname=Frontend
+
+-name Disable NGINX Module
+  ansible.buildin.shell: dnf module disable nginx -y
+
+-name Enable NGINX Module
+  ansible.buildin.shell: dnf module enable nginx:1.24 -y
+
+
+-name Install NGINX Module
+  ansible.buildin.dnf:
+  name: nginx
+  state: latest
+
+-name Copy nginx Configuration files
+  ansible.builtin.copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+
+-name Restart Nginx Service to load the changes of the configuration.
+  ansible.builtin.service:
+      name: nginx
+      state: restarted
+      enabled: true
+#systemctl restart nginx &>>$LOG_FILE
+
+
+
+execute_as_root
