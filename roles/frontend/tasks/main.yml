@@ -1,29 +1,29 @@
 - name: Disable NGINX Module
-    ansible.buildin.shell: dnf module disable nginx -y
+  ansible.buildin.shell: dnf module disable nginx -y
 
 - name: Enable NGINX Module
-    ansible.buildin.shell: dnf module enable nginx:1.24 -y
+  ansible.buildin.shell: dnf module enable nginx:1.24 -y
 
 - name: Install NGINX Module
-    ansible.buildin.dnf:
+  ansible.buildin.dnf:
     name: nginx
     state: latest
 
 - name: Copy nginx Configuration files
-    ansible.builtin.copy:
-      src: nginx.conf
-      dest: /etc/nginx/nginx.conf
+  ansible.builtin.copy:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
 
 - name: Setup App Prerequisites
-    ansible.builtin.include_role:
-      name: common
-      tasks_from: app-prereq
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: app-prereq
 
-- name: Restart Nginx Service to load the changes of the configuration.
-    ansible.builtin.service:
-        name: nginx
-        state: restarted
-        enabled: true
+- name: Restart Nginx Service
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+    enabled: true
 
 
 #execute_as_root
