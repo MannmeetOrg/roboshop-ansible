@@ -1,0 +1,36 @@
+- name: Disable NodeJS
+  ansible.builtin.shell: dnf module disable nodejs -y
+
+- name: Enable NodeJS
+  ansible.builtin.shell: dnf module enable nodejs:20 -y
+
+- name: Install NodeJS
+  ansible.builtin.dnf:
+    name: nodejs
+    status: restarted
+    enabled: true
+
+- name: Setup App Prerequisites
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: app-prereq
+
+- name: Download the NodeJS dependencies
+  ansible.builtin.shell: npm install
+  agrs:
+    chdir: "{{ app_path }}"
+
+- name: Systemd Services restarted and enabled
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: systemd
+
+- name: Systemd Services restarted and enabled
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: systemd
+
+- name: Schema Setup
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: schema
