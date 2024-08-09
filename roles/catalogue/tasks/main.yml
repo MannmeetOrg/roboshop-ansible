@@ -1,13 +1,7 @@
-
 - name: Setup Nodejs
   ansible.builtin.include_role:
     name: common
     tasks_from: nodejs
-
-- name: Setup App Prerequisites
-  ansible.builtin.include_role:
-    name: common
-    tasks_from: app-prereq
 
 - name: Copy the Service file
   ansible.builtin.copy:
