@@ -1,3 +1,5 @@
 component: shipping
 app_path: /app
 schema_setup: mysql
+
+secrets: "{{ lookup('hashi_vault', 'secret=roboshop-{{env}}/data/shipping token={{vault_token}} url=https://vault-internal.blissfulbytes.online:8200 validate_certs=false')}}"
