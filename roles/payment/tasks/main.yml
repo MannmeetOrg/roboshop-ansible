@@ -1,0 +1,9 @@
+
+- name: Setup Python
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: python
+
+
+
+#execute_as_root

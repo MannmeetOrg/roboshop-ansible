@@ -1,7 +1,10 @@
 ---
-- name:  Install Maven and JAVA
+- name: Install Python 3
   ansible.builtin.dnf:
-    name: maven
+    name:
+      - python3
+      - gcc
+      - python3-devel
     state: latest
 
 - name: Setup App Prerequisites
@@ -9,18 +12,18 @@
     name: common
     tasks_from: app-prereq
 
-- name:  download the dependencies
-  ansible.builtin.shell: mvn clean package; mv target/shipping-1.0.jar shipping.jar
-  args:
+- name: Download the Python dependencies
+  ansible.builtin.shell:  pip3 install -r requirements.txt
+  agrs:
     chdir: "{{ app_path }}"
 
 - name: Load Schema
   ansible.builtin.include_role:
     name: common
     tasks_from: schema
-  when: schema is defined
+  when: schema_setup is defined
 
-- name: Systemd setup
+- name: Systemd Services restarted and enabled
   ansible.builtin.include_role:
     name: common
     tasks_from: systemd

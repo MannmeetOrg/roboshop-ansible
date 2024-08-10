@@ -1,0 +1,35 @@
+---
+- name:  Install RabbitMQ
+  ansible.builtin.dnf:
+    name: rabbitmq-server
+    state: latest
+
+
+- name:  Start and enable RABITTMQ Server
+  ansible.builtin.service:
+    name: rabbitmq-server
+    restarted: true
+    enabled: true
+
+- name: Manage RabbitMQ users and permissions
+  become: true
+  vars:
+    rabbitmq_user: "roboshop"
+    rabbitmq_password: "roboshop123"
+    rabbitmq_vhost: "/"
+
+  tasks:
+    - name: Add RabbitMQ user
+      ansible.builtin.command:
+        cmd: >
+          rabbitmqctl add_user {{ rabbitmq_user }} {{ rabbitmq_password }}
+      ignore_errors: true  # Ignore errors if the user already exists
+
+    - name: Set RabbitMQ permissions for the user
+      ansible.builtin.command:
+        cmd: >
+          rabbitmqctl set_permissions -p {{ rabbitmq_vhost }} {{ rabbitmq_user }} ".*" ".*" ".*"
+      ignore_errors: true  # Ignore errors if the permissions are already set
+
+
+#execute_as_root

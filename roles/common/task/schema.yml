@@ -1,3 +1,4 @@
+---
 - name: Load MySQL schema
   when: schema_setup == "mysql"
   block:
