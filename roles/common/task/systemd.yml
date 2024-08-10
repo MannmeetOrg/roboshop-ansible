@@ -2,6 +2,7 @@
   ansible.buildin.copy:
     src: "{{ component }}.service"
     dest: /etc/systemd/system/{{ component }}.service
+    when: {{ component }} != mysql
 
 - name: Start Service
   ansible.buildin.service:

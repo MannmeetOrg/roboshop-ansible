@@ -1,0 +1,7 @@
+- name: Setup App Prerequisites
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: java
+
+
+#execute_as_root

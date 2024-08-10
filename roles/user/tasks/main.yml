@@ -1,0 +1,7 @@
+- name: Setup Nodejs
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: nodejs
+
+
+#  execute_as_root

@@ -5,8 +5,8 @@
 
 - name: Copy the Service file
   ansible.builtin.copy:
-    src: catalogue.service
-    dest: /etc/systemd/system/catalogue.service
+    src: "{ { component } }.service"
+    dest: /etc/systemd/system/{ { component } }.service
 
 #execute_as_root
 
