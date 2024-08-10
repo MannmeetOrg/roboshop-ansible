@@ -1,0 +1,39 @@
+- name:   Disable redis
+  ansible.builtin.shell: dnf module disable redis -y 
+
+- name:   Enable  redis
+  ansible.builtin.shell: dnf module enable redis:7 -y
+
+- name:   Install redis
+  ansible.builtin.dnf:
+    name: redis
+    state: latest
+
+- name:   Update Redis Configuration
+  become: true
+  tasks:
+    - name: Ensure listen address is set to 0.0.0.0
+      ansible.builtin.lineinfile:
+        path: /etc/redis/redis.conf
+        regexp: '^bind 127.0.0.1'
+        line: 'bind 0.0.0.0'
+        backup: yes
+      notify: Restart Redis
+
+    - name: Ensure protected-mode is set to no
+      ansible.builtin.lineinfile:
+        path: /etc/redis/redis.conf
+        regexp: '^protected-mode'
+        line: 'protected-mode no'
+        backup: yes
+      notify: Restart Redis
+
+  handlers:
+    - name: Restart Redis
+      ansible.builtin.systemd:
+        name: redis
+        state: restarted
+        enabled: true
+
+
+#execute_as_root
