@@ -1,0 +1,7 @@
+---
+- name: Setup Golang and complete setup
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: golang
+
+#execute_as_root
