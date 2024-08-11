@@ -1,12 +1,12 @@
 ---
 - name: Disable NGINX Module
-  ansible.buildin.shell: dnf module disable nginx -y
+  ansible.builtin.shell: dnf module disable nginx -y
 
 - name: Enable NGINX Module
-  ansible.buildin.shell: dnf module enable nginx:1.24 -y
+  ansible.builtin.shell: dnf module enable nginx:1.24 -y
 
 - name: Install NGINX Module
-  ansible.buildin.dnf:
+  ansible.builtin.dnf:
     name: nginx
     state: latest
 
