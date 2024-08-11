@@ -1,3 +1,4 @@
+---
 - name: Disable NGINX Module
   ansible.buildin.shell: dnf module disable nginx -y
 
