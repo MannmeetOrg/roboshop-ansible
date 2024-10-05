@@ -1,34 +1,18 @@
----
-- name:  Install RabbitMQ
+- name: COpy Repo file
+  ansible.builtin.copy:
+    src: rabbitmq.repo
+    dest: /etc/yum.repos.d/rabbitmq.repo
+
+- name: Install rabbitmq server
   ansible.builtin.dnf:
     name: rabbitmq-server
     state: latest
 
-- name:  Start and enable RABITTMQ Server
-  ansible.builtin.service:
+- name: Start RabbitMQ service
+  ansible.builtin.systemd_service:
     name: rabbitmq-server
-    restarted: true
-    enabled: true
+    state: restarted
+    enabled: yes
 
-- name: Manage RabbitMQ users and permissions
-  become: true
-  vars:
-    rabbitmq_user: "{{ secrets.rabbitmq_user }}"
-    rabbitmq_password: "{{ secrets.rabbitmq_password }}"
-    rabbitmq_vhost: "/"
-
-  tasks:
-    - name: Add RabbitMQ user
-      ansible.builtin.command:
-        cmd: >
-          rabbitmqctl add_user {{ rabbitmq_user }} {{ rabbitmq_password }}
-      ignore_errors: true  # Ignore errors if the user already exists
-
-    - name: Set RabbitMQ permissions for the user
-      ansible.builtin.command:
-        cmd: >
-          rabbitmqctl set_permissions -p {{ rabbitmq_vhost }} {{ rabbitmq_user }} ".*" ".*" ".*"
-      ignore_errors: true  # Ignore errors if the permissions are already set
-
-
-#execute_as_root
+- name: Create application user
+  ansible.builtin.shell: rabbitmqctl add_user {{ secrets.rabbitmq_user }} {{ secrets.rabbitmq_password }} ; rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
