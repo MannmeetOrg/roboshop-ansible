@@ -13,8 +13,8 @@
 - name: Manage RabbitMQ users and permissions
   become: true
   vars:
-    rabbitmq_user: {{ secrets.rabbitmq_user }}
-    rabbitmq_password: {{ secrets.rabbitmq_password }}
+    rabbitmq_user: "{{ secrets.rabbitmq_user }}"
+    rabbitmq_password: "{{ secrets.rabbitmq_password }}"
     rabbitmq_vhost: "/"
 
   tasks:
