@@ -1,2 +1,2 @@
-destination:
+dependencies:
   - root: common

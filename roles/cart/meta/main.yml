@@ -1,2 +1,2 @@
-destination:
+dependencies:
   - role: common
